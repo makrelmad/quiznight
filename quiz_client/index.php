@@ -4,15 +4,18 @@ include("Request.php");
 include("colors.php");
 
 
-if(isset($_SESSION['join_code_check'])) { $join_code_check = false;}
+if(isset($_SESSION['game_id'])) { $gameID = $_SESSION['game_id'];}
 else 								{  
-										$join_code_check = true; 
+										$gameID = createID();
+										$_SESSION['game_id'] = $gameID;
 									}
 
 
-if(isset($_SESSION['username'])) 	{  	$username = $_SESSION["username"];}
+
+
+if( isset($_SESSION['username'])  ) { $username = $_SESSION['username'];}
 else 								{  
-										$username = ""; 
+										$username = "empty"; 
 										$_SESSION["username"] = $username;
 									}
 
@@ -34,18 +37,163 @@ else 								{
 										$_SESSION["color_blue"] = $color_blue;
 									}
 
+$gameID = createID();
+$PLayerID = 119933;
+$question_id = array("q_1","q_45","q_2323","q_563");
+
+debugValuesPLayer($PLayerID,$username,"test1234",$color_red,$color_green,$color_blue,54);
+debugValues($gameID,$PLayerID,$username,$color_red,$color_green,$color_blue,12);
+debugValuesGame($gameID,"123456",8,3,"CREATED");
+
+
+//Rounds($roundtype,$gameID,$round_id,$question_no,$status)
+debugValuesRounds($roundtype,$gameID,$gameID . "_" . 1,4,"OPEN");
+
+//Question_in_Round($gameID,$question_no_in_round,$question_id,$status)
+debugValuesQuestion_in_Round($gameID . "_" . 1,1,$question_id[0],"READY");
+debugValuesQuestions($question_id[0],"SPORTS","1: WHO WAS TOPSCORER IN PREMIER LEAGUE 2014-15","SERGIO AGUERO","BENTEKE","WAYNER ROONEY","VAN PERSIE","PELLE","GIROUD","CISSE","COSTA",1,"ACTIVE");
+
+
+function debugValuesPLayer($PLayerID,$username,$password,$highscore)
+{
+	print "PLAYERS : <BR><BR>";
+	print "DATABASE : <BR>";
+	print "------------------------<BR>";
+	print "PLAYER ID (*): " . $PLayerID . "<BR>";
+	print "USERNAME (*): " . $username . "<BR>";
+	print "PASSWORD (*): " . $password . "<BR>";
+	print "HIGHTSCORE (*): " . $highscore . "<BR>";
+	print "COLOR_RED (*): " . $color_red . "<BR>";
+	print "COLOR_GREEN (*): " . $color_green . "<BR>";
+	print "COLOR_BLUE (*): " . $color_blue . "<BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "API BACKEND : <BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "createPlayer( PlayerID , UserName , Password , Higscore , Color_Red , Color_Green , Color_Blue )<BR>";
+	print "deletePlayer( PlayerID )<BR>";
+	print "getPlayerId( username , password )<BR>";
+	print "getPlayer( PlayerID )<BR>";
+	print "updatePlayername( PlayerID , UserName )<BR>";
+	print "updatePassword( PlayerID , Password )<BR>";
+	print "updateHigscore( PlayerID , Higscore )<BR>";
+	print "updateColor( PlayerID , Color_Red , Color_Green, Color_Blue )<BR>";
+	print "<BR>================================================================================================<BR><BR>";
+
+}
+
+function debugValues($gameID,$PLayerID,$username,$color_red,$color_green,$color_blue,$points)
+{
+	print "GAME PLAYERS : <BR><BR>";
+	print "DATABASE : <BR>";
+	print "------------------------<BR>";
+	print "GAME ID (*): " . $gameID . "<BR>";
+	print "PLAYER ID (*): " . $PLayerID . "<BR>";
+	print "POINTS (*): " . $points . "<BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "API BACKEND : <BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "createGamePlayer( GameID , PlayerID , points -> 0 )<BR>";
+	print "deleteGamePlayer( GameID , PlayerID  )<BR>";
+	print "updateGamePlayerPoints( GameID , PlayerID , Points )<BR>";
+	print "<BR>================================================================================================<BR><BR>";
+}
+
+function debugValuesGame($gameID,$join_code,$max_players,$rounds,$status)
+{
+	print "GAME : <BR><BR>";
+	print "DATABASE : <BR>";
+	print "------------------------<BR>";
+	print "GAME ID (*): " . $gameID . "<BR>";
+	print "JOIN_CODE(*): " . $join_code . "<BR>";
+	print "MAX_PLAYERS (*): " . $max_players . "<BR>";
+	print "TOTAL_ROUNDS (*): " . $rounds . "<BR>";
+	print "STATUS (*): " . $status . "<BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "API BACKEND : <BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "createGame( GameID )<BR>";
+	print "deleteGame( GameID )<BR>";
+	print "getGame( GameID )<BR>";
+	print "getGameId( join_code , status )<BR>";
+	print "updateStatus( GameID , status )<BR>";
+
+	print "<BR>================================================================================================<BR><BR>";
+}
+
+
+function debugValuesRounds($roundtype,$gameID,$round_id,$question_no,$status)
+{
+	print "ROUND : <BR><BR>";
+	print "DATABASE : <BR>";
+	print "------------------------<BR>";
+	print "ROUND TYPE. (*): " . $roundtype . "<BR>";
+	print "GAME ID. (*): " . $gameID . "<BR>";
+	print "ROUND_ID / NO. (*): " .  $round_id . "<BR>";
+	print "QUESTIONS_IN_ROUND (*): " . $question_no . "<BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "API BACKEND : <BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "createRound( GameID )<BR>";
+	print "deleteRound( ROUND_ID )<BR>";
+
+	print "<BR>================================================================================================<BR><BR>";
+}
+
+
+
+function debugValuesQuestion_in_Round($roundID,$question_no_in_round,$question_id,$status)
+{
+	print "QUESTION IN ROUND : <BR><BR>";
+	print "DATABASE : <BR>";
+	print "------------------------<BR>";
+	print "ROUND ID. (*): " . $roundID . "<BR>";
+	print "QUESTION NO IN ROUND. (*): " . $question_no_in_round . "<BR>";
+	print "QUESTION_ID (*): " . $question_id . "<BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "API BACKEND : <BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "<BR>================================================================================================<BR><BR>";
+}
+
+
+function debugValuesQuestions($question_id,$category,$question,$correct,$opt1,$opt2,$opt3,$opt4,$opt5,$opt6,$opt7,$level,$question_status)
+{
+	print "QUESTION: <BR><BR>";
+	print "DATABASE : <BR>";
+	print "------------------------<BR>";
+	print "QUESTION ID. (*): " . $question_id . "<BR>";
+	print "CATEGORY (*): " . $category . "<BR>";
+	print "QUESTION (*): " . $question . "<BR>";
+	print "CORRECT (*): " . $correct . "<BR>";
+	print "OPTION_1 (*): " . $opt1 . "<BR>";
+	print "OPTION_2 (*): " . $opt2 . "<BR>";
+	print "OPTION_3 (*): " . $opt3 . "<BR>";
+	print "OPTION_4 (*): " . $opt4 . "<BR>";
+	print "OPTION_5 (*): " . $opt5 . "<BR>";
+	print "OPTION_6 (*): " . $opt6 . "<BR>";
+	print "OPTION_7 (*): " . $opt7 . "<BR>";
+	print "LEVEL (*): " . $level . "<BR>";
+	print "QUESTION STATUS (*): " . $question_status . "<BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "API BACKEND : <BR>";
+	print "--------------------------------------------------------------<BR>";
+	print "<BR>================================================================================================<BR><BR>";
+
+}
+
+
 
 
 
 //var_dump($colors->getcolors(0));
 //print "TEST : " .  $colors->getcolors(0)[0];
 
-ShowScreen($username,$color_red,$color_green,$color_blue,$join_code_check);
+//ShowScreen($username,$color_red,$color_green,$color_blue,$join_code_check);
 
 //,$color_red,$color_green,$color_blue
 
 
-function ShowScreen($username,$color_red,$color_green,$color_blue,$join_code_check)
+function ShowScreen($gameID,$username,$color_red,$color_green,$color_blue,$join_code_check)
 {
 //var_dump($jsondata);
 	$stringdata = "";
@@ -155,7 +303,14 @@ border:none;border-color:#0F0;box-shadow:0 0 200px #0F0;\">GO !</button>";
 
 }
 
+function createID()
+{
+    $today = "0000111122223333";
+    
+    return $today;
+    
+    
+}
+
 $_SESSION['join_code_check'] = true;
-
-
 ?>
