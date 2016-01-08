@@ -3,15 +3,14 @@ session_start();
 include("Request.php");
 include("colors.php");
 
+//$colors = new colors();
 
-if(isset($_SESSION['game_id'])) { $gameID = $_SESSION['game_id'];}
+
+if(isset($_SESSION['player_id'])) { $PlayerID = $_SESSION['player_id'];}
 else 								{  
-										$gameID = createID();
-										$_SESSION['game_id'] = $gameID;
+										$PlayerID = createPlayerID();
+										$_SESSION['player_id'] = $PlayerID;
 									}
-
-
-
 
 if( isset($_SESSION['username'])  ) { $username = $_SESSION['username'];}
 else 								{  
@@ -19,29 +18,39 @@ else 								{
 										$_SESSION["username"] = $username;
 									}
 
-if(isset($_SESSION['color_red'])) 	{  	$color_red = $_SESSION["color_red"];}
+if( isset($_SESSION['password'])  ) { $password = $_SESSION['password'];}
 else 								{  
-										$color_red = "FF"; 
-										$_SESSION["color_red"] = $color_red;
+										$password = "empty"; 
+										$_SESSION["password"] = $password;
 									}
 
-if(isset($_SESSION['color_green'])) {  $color_green = $_SESSION["color_green"];}
+if( isset($_SESSION['highscore'])  ) { $highscore = $_SESSION['highscore'];}
 else 								{  
-										$color_green = "FF"; 
-										$_SESSION["color_green"] = $color_green;
+										$highscore = 0; 
+										$_SESSION["highscore"] = $highscore;
+									}
+									
+									
+if(isset($_SESSION['color'])) 	{  	$color = $_SESSION["color"];}
+else 								{  
+										$color = "FFFFFF"; 
+										$_SESSION["color"] = $color;
 									}
 
-if(isset($_SESSION['color_blue'])) 	{  $color_blue = $_SESSION["color_blue"];}
+if(isset($_SESSION['game_id'])) { $gameID = $_SESSION['game_id'];}
 else 								{  
-										$color_blue = "FF"; 
-										$_SESSION["color_blue"] = $color_blue;
+										$gameID = createID();
+										$_SESSION['game_id'] = $gameID;
 									}
 
 $gameID = createID();
-$PLayerID = 119933;
 $question_id = array("q_1","q_45","q_2323","q_563");
 
-debugValuesPLayer($PLayerID,$username,"test1234",$color_red,$color_green,$color_blue,54);
+
+/*
+debugValuesPLayer($PlayerID,$username,$password,$highscore,$color);
+
+
 debugValues($gameID,$PLayerID,$username,$color_red,$color_green,$color_blue,12);
 debugValuesGame($gameID,"123456",8,3,"CREATED");
 
@@ -52,9 +61,100 @@ debugValuesRounds($roundtype,$gameID,$gameID . "_" . 1,4,"OPEN");
 //Question_in_Round($gameID,$question_no_in_round,$question_id,$status)
 debugValuesQuestion_in_Round($gameID . "_" . 1,1,$question_id[0],"READY");
 debugValuesQuestions($question_id[0],"SPORTS","1: WHO WAS TOPSCORER IN PREMIER LEAGUE 2014-15","SERGIO AGUERO","BENTEKE","WAYNER ROONEY","VAN PERSIE","PELLE","GIROUD","CISSE","COSTA",1,"ACTIVE");
+*/
+$playerarray = array(
+						array("player_id ",$PlayerID,"varchar"),
+						array("username ",$username,"varchar"),
+						array("password ",$password,"varchar"),
+						array("highscore ",$highscore,"int"),
+						array("color ",$color,"varchar")
+					);
+
+$playerarrayAPI = array(
+						array("createPlayer ","( player_id:String , username:String , password:String , highscore:Int , color:String )"),
+						array("deletePlayer ","( player_id:String )"),
+						array("getPlayerId ","( username:String  , password:String  )"),
+						array("getPlayer ","( player_id:String )"),
+						array("updatePlayername ","( player_id:String , username:String )"),
+						array("updatePassword ","( player_id:String , password:String )"),
+						array("updateHigscore ","( player_id:String , higscore:Int )"),
+						array("updateColor ","( player_id:String , color:String )")
+					);
+
+	
 
 
-function debugValuesPLayer($PLayerID,$username,$password,$highscore)
+$stringdata = "";
+$stringdata = $stringdata . "<HTML>";
+$stringdata = $stringdata . "<HEAD>";
+$stringdata = $stringdata . "</HEAD>";
+$stringdata = $stringdata . "<BODY>";
+$stringdata = $stringdata . valuesPlayerHTML("PLAYER","q_player",$playerarray,$playerarrayAPI);
+$stringdata = $stringdata . "</BODY>";
+$stringdata = $stringdata . "</HTML>";
+
+
+echo $stringdata;
+
+function createPlayerID()
+{
+    $today = "P_" . "0000111122223333";
+    
+    return $today;
+    
+    
+}
+
+
+//function valuesPlayerHTML($PLayerID,$username,$password,$highscore,$color)
+
+function valuesPlayerHTML($db,$dbname,$array,$array2)
+{
+	
+	$arraySize = sizeOf($array);
+	$arraySize2 = sizeOf($array2);
+	
+	$stringdata = $stringdata . "<HR>";
+
+	$stringdata = $stringdata . "<TABLE>";
+	$stringdata = $stringdata . "<TR> <TD></TD> <TD>Database : </TD> <TD>" . $db ."</TD> <TD></TD>  <TD></TD></TR>";
+	$stringdata = $stringdata . "<TR> <TD></TD>  <TD>DB name : </TD> <TD>" . $dbname . "</TD></TR>";
+	$stringdata = $stringdata . "</TABLE>";
+	
+	$stringdata = $stringdata . "<HR>";
+	$stringdata = $stringdata . "<TABLE>";
+	
+	for($i=0;$i<$arraySize;$i++)
+	{
+	$stringdata = $stringdata . "<TR><TD>" . $array[$i][0] . "</TD><TD>" . $array[$i][1] . "</TD><TD>" . $array[$i][2] . "</TD></TR>";
+	
+	}
+
+	$stringdata = $stringdata . "</TABLE>";
+	$stringdata = $stringdata . "<HR>";
+	
+	$stringdata = $stringdata . "<TABLE>";
+	$stringdata = $stringdata . "<TR> <TD></TD> <TD>methods : </TD> </TR>";
+	$stringdata = $stringdata . "</TABLE>";
+	
+	$stringdata = $stringdata . "<HR>";
+
+	$stringdata = $stringdata . "<TABLE>";
+
+	for($i=0;$i<$arraySize2;$i++)
+	{
+	$stringdata = $stringdata . "<TR><TD>" . $array2[$i][0] . "</TD><TD>" . $array2[$i][1] . "</TD></TR>";
+	
+	}
+	
+	$stringdata = $stringdata . "</TABLE>";
+	$stringdata = $stringdata . "<HR>";
+
+	return $stringdata;
+}
+
+
+function debugValuesPLayer($PLayerID,$username,$password,$highscore,$color)
 {
 	print "PLAYERS : <BR><BR>";
 	print "DATABASE : <BR>";
@@ -63,9 +163,7 @@ function debugValuesPLayer($PLayerID,$username,$password,$highscore)
 	print "USERNAME (*): " . $username . "<BR>";
 	print "PASSWORD (*): " . $password . "<BR>";
 	print "HIGHTSCORE (*): " . $highscore . "<BR>";
-	print "COLOR_RED (*): " . $color_red . "<BR>";
-	print "COLOR_GREEN (*): " . $color_green . "<BR>";
-	print "COLOR_BLUE (*): " . $color_blue . "<BR>";
+	print "COLOR (*): " . $color . "<BR>";
 	print "--------------------------------------------------------------<BR>";
 	print "API BACKEND : <BR>";
 	print "--------------------------------------------------------------<BR>";
@@ -76,10 +174,14 @@ function debugValuesPLayer($PLayerID,$username,$password,$highscore)
 	print "updatePlayername( PlayerID , UserName )<BR>";
 	print "updatePassword( PlayerID , Password )<BR>";
 	print "updateHigscore( PlayerID , Higscore )<BR>";
-	print "updateColor( PlayerID , Color_Red , Color_Green, Color_Blue )<BR>";
+	print "updateColor( PlayerID , Color )<BR>";
 	print "<BR>================================================================================================<BR><BR>";
 
 }
+
+
+
+
 
 function debugValues($gameID,$PLayerID,$username,$color_red,$color_green,$color_blue,$points)
 {
@@ -311,6 +413,8 @@ function createID()
     
     
 }
+
+
 
 $_SESSION['join_code_check'] = true;
 ?>
