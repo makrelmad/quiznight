@@ -121,9 +121,108 @@ else 								{
 
 
 
+if(isset($_SESSION['question_id'])) { $question_id = $_SESSION['question_id'];}
+else 								{  
+										$question_id = createQuestionID();
+										$_SESSION['question_id'] = $question_id;
+									}
+
+if(isset($_SESSION['question_category'])) { $question_category = $_SESSION['question_category'];}
+else 								{  
+										$question_category = "COMMON";
+										$_SESSION['question_category'] = $question_category;
+									}
+
+if(isset($_SESSION['question_question'])) { $question_question = $_SESSION['question_question'];}
+else 								{  
+										$question_question = "Det danske flag består af to farver. Den en farve er rød. Hvad er den anden farve ?";
+										$_SESSION['question_question'] = $question_question;
+									}
+
+if(isset($_SESSION['question_correct'])) { $question_correct = $_SESSION['question_correct'];}
+else 								{  
+										$question_correct = "hvid";
+										$_SESSION['question_correct'] = $question_correct;
+									}
+
+
+if(isset($_SESSION['question_option1'])) { $question_option1 = $_SESSION['question_option1'];}
+else 								{  
+										$question_option1 = "grøn";
+										$_SESSION['question_option1'] = $question_option1;
+									}
+
+if(isset($_SESSION['question_option2'])) { $question_option2 = $_SESSION['question_option2'];}
+else 								{  
+										$question_option2 = "gul";
+										$_SESSION['question_option2'] = $question_option2;
+									}
+
+if(isset($_SESSION['question_option3'])) { $question_option3 = $_SESSION['question_option3'];}
+else 								{  
+										$question_option3 = "blå";
+										$_SESSION['question_option3'] = $question_option3;
+									}
+
+if(isset($_SESSION['question_option4'])) { $question_option4 = $_SESSION['question_option4'];}
+else 								{  
+										$question_option4 = "sort";
+										$_SESSION['question_option4'] = $question_option4;
+									}
+
+if(isset($_SESSION['question_option5'])) { $question_option5 = $_SESSION['question_option5'];}
+else 								{  
+										$question_option5 = "grå";
+										$_SESSION['question_option5'] = $question_option5;
+									}
+
+if(isset($_SESSION['question_option6'])) { $question_option6 = $_SESSION['question_option6'];}
+else 								{  
+										$question_option6 = "brun";
+										$_SESSION['question_option6'] = $question_option6;
+									}
+
+if(isset($_SESSION['question_option7'])) { $question_option7 = $_SESSION['question_option7'];}
+else 								{  
+										$question_option7 = "orange";
+										$_SESSION['question_option7'] = $question_option7;
+									}
+
+if(isset($_SESSION['question_level'])) { $question_level = $_SESSION['question_level'];}
+else 								{  
+										$question_level = 50;
+										$_SESSION['question_level'] = $question_level;
+									}
+
+if(isset($_SESSION['question_status'])) { $question_status = $_SESSION['question_status'];}
+else 								{  
+										$question_status = "ACTIVE";
+										$_SESSION['question_status'] = $question_status;
+									}
+
+if(isset($_SESSION['question_in_round_round_id'])) { $question_in_round_round_id = $_SESSION['question_in_round_round_id'];}
+else 								{  
+										$question_in_round_round_id = $round_id;
+										$_SESSION['round_question_in_round'] = $question_in_round_round_id;
+									}
+
+if(isset($_SESSION['question_in_round_question_no'])) { $question_in_round_question_no = $_SESSION['question_in_round_question_no'];}
+else 								{  
+										$question_in_round_question_no = 0;
+										$_SESSION['round_question_in_round'] = $question_in_round_question_no;
+									}
+
+if(!isset($_SESSION['question_in_round_question_id'])) { $question_in_round_question_id = $_SESSION['question_in_round_question_id'];}
+else 								{  
+										$question_in_round_question_id = $question_id;
+										$_SESSION['question_in_round_question_id'] = $question_in_round_question_id;
+									}
+
+
+
+
 
 $gameID = createID();
-$question_id = array("q_1","q_45","q_2323","q_563");
 
 
 /*
@@ -208,9 +307,9 @@ $roundsarrayAPI = array(
 
 
 $questions_in_roundarray = array(
-						array("question_in_round_round_id ",$questions_in_round_round_id,"varchar(32)"),
-						array("question_in_round_question_no",$questions_in_round_question_no_in_round,"varchar(32)"),
-						array("question_in_round_question_id",$questions_in_round_question_id,"int(5)")
+						array("question_in_round_round_id ",$question_in_round_round_id,"varchar(32)"),
+						array("question_in_round_question_no",$question_in_round_question_no,"varchar(32)"),
+						array("question_in_round_question_id",$question_in_round_question_id,"int(5)")
 						);				
 
 $questions_in_roundarrayAPI = array(
@@ -218,6 +317,30 @@ $questions_in_roundarrayAPI = array(
 						array("deleteQuestionInRound ","( round_id:String )","Status:bool"),
 						array("getQuestionsInRound","( round_id:String ,round_type, question_in_round:int )","Status:bool"),
 						);
+
+
+
+$questions_array = array(
+						array("question_id ",$question_id,"varchar(32)"),
+						array("question_in_round_question_no",$question_category,"varchar(100)"),
+						array("question_in_round_question_id",$question_question,"varchar(300)"),
+						array("question_in_round_question_id",$question_correct,"varchar(200)"),
+						array("question_in_round_question_id",$question_option1,"varchar(200)"),
+						array("question_in_round_question_id",$question_option2,"varchar(200)"),
+						array("question_in_round_question_id",$question_option3,"varchar(200)"),
+						array("question_in_round_question_id",$question_option4,"varchar(200)"),
+						array("question_in_round_question_id",$question_option5,"varchar(200)"),
+						array("question_in_round_question_id",$question_option6,"varchar(200)"),
+						array("question_in_round_question_id",$question_option7,"varchar(200)"),
+						array("question_in_round_question_id",$question_level,"int(3)"),
+						array("question_in_round_question_id",$question_status,"varchar(100)")
+						);				
+
+$questions_arrayAPI = array(
+						);
+
+
+
 
 
 
@@ -233,6 +356,7 @@ $stringdata = $stringdata . valuesPlayerHTML($stylearray, 'GAME PLAYER','q_game_
 $stringdata = $stringdata . valuesPlayerHTML($stylearray, 'GAME','q_game',$gamearray,$gamearrayAPI);
 $stringdata = $stringdata . valuesPlayerHTML($stylearray, 'ROUND','q_rounds',$roundsarray,$roundsarrayAPI);
 $stringdata = $stringdata . valuesPlayerHTML($stylearray, 'QUESTION_IN_ROUND','q_question_in_round',$questions_in_roundarray,$questions_in_roundarrayAPI);
+$stringdata = $stringdata . valuesPlayerHTML($stylearray, 'QUESTIONS','q_questions',$questions_array,$questions_arrayAPI);
 $stringdata = $stringdata . "</BODY>";
 $stringdata = $stringdata . "</HTML>";
 
@@ -301,147 +425,6 @@ function valuesPlayerHTML($stylearray,$db,$dbname,$array,$array2)
 
 	return $stringdata;
 }
-
-/*
-function debugValuesPLayer($PLayerID,$username,$password,$highscore,$color)
-{
-	print "PLAYERS : <BR><BR>";
-	print "DATABASE : <BR>";
-	print "------------------------<BR>";
-	print "PLAYER ID (*): " . $PLayerID . "<BR>";
-	print "USERNAME (*): " . $username . "<BR>";
-	print "PASSWORD (*): " . $password . "<BR>";
-	print "HIGHTSCORE (*): " . $highscore . "<BR>";
-	print "COLOR (*): " . $color . "<BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "API BACKEND : <BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "createPlayer( PlayerID , UserName , Password , Higscore , Color_Red , Color_Green , Color_Blue )<BR>";
-	print "deletePlayer( PlayerID )<BR>";
-	print "getPlayerId( username , password )<BR>";
-	print "getPlayer( PlayerID )<BR>";
-	print "updatePlayername( PlayerID , UserName )<BR>";
-	print "updatePassword( PlayerID , Password )<BR>";
-	print "updateHigscore( PlayerID , Higscore )<BR>";
-	print "updateColor( PlayerID , Color )<BR>";
-	print "<BR>================================================================================================<BR><BR>";
-
-}
-
-
-
-
-
-function debugValues($gameID,$PLayerID,$username,$color_red,$color_green,$color_blue,$points)
-{
-	print "GAME PLAYERS : <BR><BR>";
-	print "DATABASE : <BR>";
-	print "------------------------<BR>";
-	print "GAME ID (*): " . $gameID . "<BR>";
-	print "PLAYER ID (*): " . $PLayerID . "<BR>";
-	print "POINTS (*): " . $points . "<BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "API BACKEND : <BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "createGamePlayer( GameID , PlayerID , points -> 0 )<BR>";
-	print "deleteGamePlayer( GameID , PlayerID  )<BR>";
-	print "updateGamePlayerPoints( GameID , PlayerID , Points )<BR>";
-	print "<BR>================================================================================================<BR><BR>";
-}
-
-function debugValuesGame($gameID,$join_code,$max_players,$rounds,$status)
-{
-	print "GAME : <BR><BR>";
-	print "DATABASE : <BR>";
-	print "------------------------<BR>";
-	print "GAME ID (*): " . $gameID . "<BR>";
-	print "JOIN_CODE(*): " . $join_code . "<BR>";
-	print "MAX_PLAYERS (*): " . $max_players . "<BR>";
-	print "TOTAL_ROUNDS (*): " . $rounds . "<BR>";
-	print "STATUS (*): " . $status . "<BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "API BACKEND : <BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "createGame( GameID )<BR>";
-	print "deleteGame( GameID )<BR>";
-	print "getGame( GameID )<BR>";
-	print "getGameId( join_code , status )<BR>";
-	print "updateStatus( GameID , status )<BR>";
-
-	print "<BR>================================================================================================<BR><BR>";
-}
-
-
-function debugValuesRounds($roundtype,$gameID,$round_id,$question_no,$status)
-{
-	print "ROUND : <BR><BR>";
-	print "DATABASE : <BR>";
-	print "------------------------<BR>";
-	print "ROUND TYPE. (*): " . $roundtype . "<BR>";
-	print "GAME ID. (*): " . $gameID . "<BR>";
-	print "ROUND_ID / NO. (*): " .  $round_id . "<BR>";
-	print "QUESTIONS_IN_ROUND (*): " . $question_no . "<BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "API BACKEND : <BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "createRound( GameID )<BR>";
-	print "deleteRound( ROUND_ID )<BR>";
-
-	print "<BR>================================================================================================<BR><BR>";
-}
-
-
-
-function debugValuesQuestion_in_Round($roundID,$question_no_in_round,$question_id,$status)
-{
-	print "QUESTION IN ROUND : <BR><BR>";
-	print "DATABASE : <BR>";
-	print "------------------------<BR>";
-	print "ROUND ID. (*): " . $roundID . "<BR>";
-	print "QUESTION NO IN ROUND. (*): " . $question_no_in_round . "<BR>";
-	print "QUESTION_ID (*): " . $question_id . "<BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "API BACKEND : <BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "<BR>================================================================================================<BR><BR>";
-}
-*/
-
-function debugValuesQuestions($question_id,$category,$question,$correct,$opt1,$opt2,$opt3,$opt4,$opt5,$opt6,$opt7,$level,$question_status)
-{
-	print "QUESTION: <BR><BR>";
-	print "DATABASE : <BR>";
-	print "------------------------<BR>";
-	print "QUESTION ID. (*): " . $question_id . "<BR>";
-	print "CATEGORY (*): " . $category . "<BR>";
-	print "QUESTION (*): " . $question . "<BR>";
-	print "CORRECT (*): " . $correct . "<BR>";
-	print "OPTION_1 (*): " . $opt1 . "<BR>";
-	print "OPTION_2 (*): " . $opt2 . "<BR>";
-	print "OPTION_3 (*): " . $opt3 . "<BR>";
-	print "OPTION_4 (*): " . $opt4 . "<BR>";
-	print "OPTION_5 (*): " . $opt5 . "<BR>";
-	print "OPTION_6 (*): " . $opt6 . "<BR>";
-	print "OPTION_7 (*): " . $opt7 . "<BR>";
-	print "LEVEL (*): " . $level . "<BR>";
-	print "QUESTION STATUS (*): " . $question_status . "<BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "API BACKEND : <BR>";
-	print "--------------------------------------------------------------<BR>";
-	print "<BR>================================================================================================<BR><BR>";
-
-}
-
-
-
-
-
-//var_dump($colors->getcolors(0));
-//print "TEST : " .  $colors->getcolors(0)[0];
-
-//ShowScreen($username,$color_red,$color_green,$color_blue,$join_code_check);
-
-//,$color_red,$color_green,$color_blue
 
 
 function ShowScreen($gameID,$username,$color_red,$color_green,$color_blue,$join_code_check)
@@ -581,6 +564,14 @@ function createRoundID()
     
 }
 
+function createQuestionID()
+{
+    $today = "Q_" . createID();
+    
+    return $today;
+    
+    
+}
 
 $_SESSION['join_code_check'] = true;
 ?>
